@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">Clock</string>
+    <string name="settings">Configuración</string>
+    <string name="save">Guardar</string>
+    <string name="clock_font">Fuente del Reloj</string>
+    <string name="date_font">Fuente de la Fecha</string>
+    <string name="bold">Negrita</string>
+    <string name="weight">Peso de la fuente: %d</string>
+    <string name="color_mode">Modo de Color</string>
+    <string name="static_color">Estático</string>
+    <string name="random_color">Aleatorio</string>
+    <string name="red">R</string>
+    <string name="green">G</string>
+    <string name="blue">B</string>
+    <string name="interval_minutes">Intervalo (minutos): %d</string>
+    
+    <string-array name="font_options">
+        <item>DSEG7 Classic</item>
+        <item>DSEG7 Modern</item>
+        <item>DSEG14 Classic</item>
+        <item>DSEG14 Modern</item>
+        <item>Sistema</item>
+    </string-array>
 </resources>

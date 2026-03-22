@@ -1,12 +1,17 @@
 package com.example.clock
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.graphics.Typeface
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -21,13 +26,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var textDate: TextView
     private val handler = Handler(Looper.getMainLooper())
 
-    private val fonts = arrayOf(
-        R.font.dseg7_classic,
-        R.font.dseg7_modern,
-        R.font.dseg14_classic,
-        R.font.dseg14_modern
-    )
-    private var currentFontIndex = 0
+    private var lastColorChangeTime: Long = 0
+    private var currentRandomIntervalMinutes: Int = 1
+    private var colorMode: Int = 0 // 0 Random, 1 Static
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,15 +49,10 @@ class MainActivity : AppCompatActivity() {
 
         val rootView = findViewById<android.view.View>(R.id.rootView)
         rootView.setOnClickListener {
-            currentFontIndex = (currentFontIndex + 1) % fonts.size
-            val typeface = androidx.core.content.res.ResourcesCompat.getFont(this, fonts[currentFontIndex])
-            textClock.typeface = typeface
-            
-            // Optionally change date font too if we want a uniform look
-            // textDate.typeface = typeface 
+            val intent = Intent(this, SettingsActivity::class.java)
+            startActivity(intent)
         }
 
-        setRandomColor()
         updateTime()
     }
 
@@ -69,12 +65,66 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        loadSettings()
         handler.post(updateRunnable)
     }
 
     override fun onPause() {
         super.onPause()
         handler.removeCallbacks(updateRunnable)
+    }
+
+    private fun loadSettings() {
+        val prefs = getSharedPreferences("ClockPrefs", Context.MODE_PRIVATE)
+        
+        // Font
+        applyTextStyle(textClock, prefs.getInt("clock_font_index", 0), prefs.getBoolean("clock_bold", false), prefs.getInt("clock_weight", 400))
+        applyTextStyle(textDate, prefs.getInt("date_font_index", 0), prefs.getBoolean("date_bold", true), prefs.getInt("date_weight", 700))
+        
+        // Color
+        colorMode = prefs.getInt("color_mode", 0)
+        currentRandomIntervalMinutes = prefs.getInt("random_interval", 1)
+        
+        if (colorMode == 1) {
+            val staticColor = prefs.getInt("static_color", Color.parseColor("#687C78"))
+            textClock.setTextColor(staticColor)
+            textDate.setTextColor(staticColor)
+        } else {
+            // Force random color update on resume if random mode
+            setRandomColor()
+            lastColorChangeTime = System.currentTimeMillis()
+        }
+    }
+
+    private fun applyTextStyle(textView: TextView, fontIndex: Int, isBold: Boolean, weight: Int) {
+        val fontsList = arrayOf(
+            R.font.dseg7_classic,
+            R.font.dseg7_modern,
+            R.font.dseg14_classic,
+            R.font.dseg14_modern,
+            0 // System
+        )
+        
+        var baseTypeface: Typeface? = null
+        val fontRes = fontsList.getOrNull(fontIndex) ?: 0
+        if (fontRes != 0) {
+            try {
+                baseTypeface = ResourcesCompat.getFont(this, fontRes)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        } else {
+            baseTypeface = Typeface.DEFAULT
+        }
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && baseTypeface != null) {
+            val finalTypeface = Typeface.create(baseTypeface, weight, false)
+            textView.typeface = finalTypeface
+            textView.paint.isFakeBoldText = isBold
+        } else {
+            textView.setTypeface(baseTypeface, if (isBold) Typeface.BOLD else Typeface.NORMAL)
+            textView.paint.isFakeBoldText = isBold
+        }
     }
 
     private fun updateTime() {
@@ -99,6 +149,14 @@ class MainActivity : AppCompatActivity() {
         val dateString = "$dayW $day $month"
         if (textDate.text != dateString) {
             textDate.text = dateString
+        }
+
+        if (colorMode == 0) {
+            val now = System.currentTimeMillis()
+            if (now - lastColorChangeTime >= currentRandomIntervalMinutes * 60 * 1000L) {
+                setRandomColor()
+                lastColorChangeTime = now
+            }
         }
     }
 
