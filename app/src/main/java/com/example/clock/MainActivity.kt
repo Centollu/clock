@@ -39,8 +39,10 @@ class MainActivity : AppCompatActivity() {
         // Enter full screen
         WindowCompat.setDecorFitsSystemWindows(window, false)
         val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
-        windowInsetsController.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
+        windowInsetsController?.let {
+            it.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            it.hide(WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.navigationBars())
+        }
 
         setContentView(R.layout.activity_main)
 
@@ -66,6 +68,13 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         loadSettings()
+        
+        // Ensure system bars are hidden when returning to the activity
+        WindowCompat.getInsetsController(window, window.decorView)?.let {
+            it.systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            it.hide(WindowInsetsCompat.Type.statusBars() or WindowInsetsCompat.Type.navigationBars())
+        }
+        
         handler.post(updateRunnable)
     }
 
