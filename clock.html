@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta http-equiv="refresh" content="900">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="cid:css-583fc804-122a-4acc-9fb3-85594bfc3621@mhtml.blink" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">  
+    <style>
+      body { background: rgb(0, 0, 0); }
+      * { border: 1px solid rgb(0, 0, 0); }
+      .clock { font-size: 440px; letter-spacing: 12px; text-align: center; margin: auto; }
+      .date { font-size: 140px; letter-spacing: 0px; text-align: center; margin: auto; }
+    </style>  
+  </head>
+  <body>
+    <div id="DigitalCLOCK" class="clock" style="color: rgb(104, 124, 120);"></div>
+    <br>
+    <div id="DigitalDATE" class="date" style="color: rgb(104, 124, 120);"></div>
+
+    <script>
+      function currentTime() {
+        var date = new Date(); /* creating object of Date class */
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        //var sec = date.getSeconds();
+        var midday = "AM";
+        //midday = (hour >= 12) ? "PM" : "AM"; /* assigning AM/PM */
+        //hour = (hour == 0) ? 12 : ((hour > 12) ? (hour - 12): hour); /* assigning hour in 12-hour format */
+        hour = updateTime(hour);
+        min = updateTime(min);
+        //sec = updateTime(sec);
+        document.getElementById("DigitalCLOCK").innerText = hour + ":" + min ; // + " : " + sec + " " + midday; /* adding time to the div */
+        var t = setTimeout(currentTime, 1000); /* setting timer */
+      }
+
+      function currentDate() {
+        var date = new Date(); /* creating object of Date class */
+        var dayw = date.toLocaleString('default', { weekday: 'long' });
+        var day = date.toLocaleString('default', { day: '2-digit' });
+        var month = date.toLocaleString('default', { month: 'long' });
+        var year = date.getYear()+1900;
+        //day = updateTime(day);
+	dayw = dayw.trim().replace(/^\w/, (c) => c.toUpperCase());
+	dayw = dayw.substring(0,3);
+	month = month.trim().replace(/^\w/, (c) => c.toUpperCase());
+        document.getElementById("DigitalDATE").innerText = dayw + " " + day + " " + month; // + " " + year;
+        var t = setTimeout(currentTime, 60000); /* setting timer */
+      }
+
+      function updateTime(k) { /* appending 0 before time elements if less than 10 */
+        if (k < 10) {
+          return "0" + k;
+        }
+        else {
+          return k;
+        }
+      }
+
+      function getRandColor(brightness){
+        // Six levels of brightness from 0 to 5, 0 being the darkest
+        var rgb = [Math.random() * 256, Math.random() * 256, Math.random() * 256];
+        var mix = [brightness*51, brightness*51, brightness*51]; //51 => 255/5
+        var mixedrgb = [rgb[0] + mix[0], rgb[1] + mix[1], rgb[2] + mix[2]].map(function(x){ return Math.round(x/2.0)})
+        return "rgb(" + mixedrgb.join(",") + ")";
+      }
+
+      function setRandomColor() {
+	randomColor = getRandColor(2);
+        document.getElementById('DigitalCLOCK').style.color = randomColor;
+        document.getElementById('DigitalDATE').style.color = randomColor;
+      }
+
+      currentTime();
+      currentDate();
+
+      setRandomColor();	
+                                          
+    </script>
+  </body>
+</html>
+

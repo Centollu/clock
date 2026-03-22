@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:weightSum="100">
+
+    <!-- Margen superior del 10% -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10" />
+
+    <!-- Reloj ocupando el 50% -->
+    <TextView
+        android:id="@+id/textClock"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="50"
+        android:gravity="center"
+        android:textColor="#687C78"
+        android:letterSpacing="0.05"
+        android:includeFontPadding="false"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMaxTextSize="500sp"
+        app:autoSizeStepGranularity="2sp"
+        android:fontFamily="@font/dseg7_classic"
+        android:text="12:00" />
+
+    <!-- Separación del 10% entre reloj y fecha -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10" />
+
+    <!-- Fecha ocupando el 20% -->
+    <TextView
+        android:id="@+id/textDate"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:gravity="center"
+        android:textColor="#687C78"
+        android:textStyle="bold"
+        android:includeFontPadding="false"
+        app:autoSizeTextType="uniform"
+        app:autoSizeMaxTextSize="300sp"
+        app:autoSizeStepGranularity="2sp"
+        android:text="Sab 21 Marzo" />
+
+    <!-- Margen inferior del 10% -->
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10" />
+
+</LinearLayout>
