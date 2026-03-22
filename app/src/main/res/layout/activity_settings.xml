@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#121212">
+
+    <!-- Small preview of the Clock and Date -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="#000000"
+        android:padding="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:weightSum="100">
+
+            <TextView
+                android:id="@+id/previewClock"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="60"
+                android:gravity="center"
+                android:textColor="#687C78"
+                android:letterSpacing="0.05"
+                android:includeFontPadding="false"
+                android:text="12:00"
+                android:textSize="48sp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5" />
+
+            <TextView
+                android:id="@+id/previewDate"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="35"
+                android:gravity="center"
+                android:textColor="#687C78"
+                android:textStyle="bold"
+                android:includeFontPadding="false"
+                android:text="Sab 21 Marzo"
+                android:textSize="20sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Reloj -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/clock_font"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp" />
+
+            <Spinner
+                android:id="@+id/spinnerClockFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/font_options"
+                android:backgroundTint="#FFFFFF"
+                android:layout_marginBottom="8dp" />
+
+            <CheckBox
+                android:id="@+id/checkClockBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bold"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#FFFFFF" />
+
+            <!-- Using Android API 26 minimum style weight format -->
+            <TextView
+                android:id="@+id/labelClockWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:text="Peso de la fuente: 400"
+                android:layout_marginTop="8dp" />
+
+            <SeekBar
+                android:id="@+id/seekClockWeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="8"
+                android:progress="3"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Separator -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#555555"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Fecha -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date_font"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp" />
+
+            <Spinner
+                android:id="@+id/spinnerDateFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/font_options"
+                android:backgroundTint="#FFFFFF"
+                android:layout_marginBottom="8dp" />
+
+            <CheckBox
+                android:id="@+id/checkDateBold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bold"
+                android:textColor="#FFFFFF"
+                android:buttonTint="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/labelDateWeight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFFFFF"
+                android:text="Peso de la fuente: 400"
+                android:layout_marginTop="8dp" />
+
+            <SeekBar
+                android:id="@+id/seekDateWeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="8"
+                android:progress="3"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Separator -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#555555"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Color -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/color_mode"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginBottom="8dp" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="16dp">
+
+                <RadioButton
+                    android:id="@+id/radioStatic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/static_color"
+                    android:textColor="#FFFFFF"
+                    android:buttonTint="#FFFFFF"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/radioRandom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/random_color"
+                    android:textColor="#FFFFFF"
+                    android:buttonTint="#FFFFFF"
+                    android:layout_marginStart="16dp" />
+            </RadioGroup>
+
+            <!-- Static Color Controls -->
+            <LinearLayout
+                android:id="@+id/layoutStaticColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/red"
+                    android:textColor="#FF0000" />
+                <SeekBar
+                    android:id="@+id/seekRed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="255"
+                    android:progress="104" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/green"
+                    android:textColor="#00FF00" />
+                <SeekBar
+                    android:id="@+id/seekGreen"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="255"
+                    android:progress="124" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/blue"
+                    android:textColor="#0000FF" />
+                <SeekBar
+                    android:id="@+id/seekBlue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="255"
+                    android:progress="120" />
+            </LinearLayout>
+
+            <!-- Random Color Controls -->
+            <LinearLayout
+                android:id="@+id/layoutRandomColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/labelInterval"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Intervalo (minutos): 1"
+                    android:textColor="#FFFFFF" />
+
+                <SeekBar
+                    android:id="@+id/seekInterval"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="59"
+                    android:progress="0" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="32dp"
+                android:backgroundTint="#4CAF50"
+                android:textColor="#FFFFFF"
+                android:text="@string/save" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
